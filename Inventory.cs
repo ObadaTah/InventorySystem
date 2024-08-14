@@ -25,7 +25,7 @@ namespace InventorySystem
             Products.Remove(product);
         }
 
-        public Product GetProduct(string name)
+        public Product? GetProduct(string name)
         {
             return Products.Find(product => product.Name == name);
         }

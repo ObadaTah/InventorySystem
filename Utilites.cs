@@ -13,7 +13,9 @@ namespace InventorySystem;
             Console.WriteLine("1. Add Product");
             Console.WriteLine("2. Remove Product");
             Console.WriteLine("3. Print Inventory");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. Edit Product");
+            Console.WriteLine("5. Look For a Product");
+            Console.WriteLine("6. Exit");
         }
 
         public static int GetMenuChoice()
@@ -32,7 +34,7 @@ namespace InventorySystem;
             }
         }
 
-        public static Product GetProductDetails()
+        public static Product getProductDetails()
         {
             Console.Write("Enter product name: ");
             string? name = Console.ReadLine();
@@ -57,5 +59,27 @@ namespace InventorySystem;
                 }
             }
         }
+
+    internal static void RemoveProductAction(Inventory inventory)
+    {
+        Console.Write("Enter product name to remove: ");
+        string? name = Console.ReadLine();
+
+        if (name == null)
+        {
+            Console.WriteLine("Invalid name. Please try again.");
+            return;
+        }
+
+        Product? product = inventory.GetProduct(name);
+
+        if (product == null)
+        {
+            Console.WriteLine("Product not found.");
+            return;
+        }
+
+        inventory.RemoveProduct(product);
     }
+}
 

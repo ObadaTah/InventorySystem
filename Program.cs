@@ -4,7 +4,43 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Inventory inventory = new();
+            do
+            {
+                Utilites.PrintMenu();
+                int choice = Utilites.GetMenuChoice();
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("///////////// Add New Product /////////////");
+                        Product product = Utilites.getProductDetails();
+                        inventory.AddProduct(product);
+                        break;
+                    case 2:
+                        Console.WriteLine("///////////// Delete a Product /////////////");
+                        Utilites.RemoveProductAction(inventory);
+                        break;
+                    case 3:
+                        Console.WriteLine("///////////// Print Invevntory /////////////");
+                        inventory.PrintInventory();
+                        break;
+                    case 4:
+                        Console.WriteLine("///////////// Edit Product /////////////");
+                        throw new NotImplementedException();
+                    case 5:
+                        Console.WriteLine("///////////// Search For a Product /////////////");
+                        throw new NotImplementedException();
+                    case 6:
+                        Console.WriteLine("///////////// Exit /////////////");
+
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
+
+            }while (true);
         }
     }
 }
