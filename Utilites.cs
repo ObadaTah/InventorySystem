@@ -75,6 +75,7 @@ namespace InventorySystem;
         if (product == null)
         {
             printError("Product not found.");
+
             return null;
         }
 
@@ -107,6 +108,7 @@ namespace InventorySystem;
                 return;
             }
         }
+
         Console.Write("Enter product new description / Leave empty to keep the same: ");
         string? description = Console.ReadLine();
         Console.WriteLine("Enter -1 to keep the same");
@@ -130,7 +132,6 @@ namespace InventorySystem;
 
         Console.ResetColor();
         Console.WriteLine();
-
     }
 }
 

@@ -25,6 +25,7 @@ namespace InventorySystem
             if (prev)
             {
                 Utilites.printError("Product already exists.");
+
                 return;
             }
             Products.Add(product);
