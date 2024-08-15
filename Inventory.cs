@@ -14,13 +14,17 @@ namespace InventorySystem
         {
             Products = new List<Product>();
         }
+        public Boolean Exists(string name)
+        {
+            return Products.Exists(product => product.Name == name);
+        }
 
         public void AddProduct(Product product)
         {
-            Product? prev = GetProduct(product.Name);
-            if (prev != null)
+            bool prev = Exists(product.Name);
+            if (prev)
             {
-                Console.WriteLine("Product already exists.");
+                Utilites.printError("Product already exists.");
                 return;
             }
             Products.Add(product);
