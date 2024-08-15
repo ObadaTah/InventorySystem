@@ -59,16 +59,15 @@ namespace InventorySystem;
                 }
             }
         }
-
-    internal static void RemoveProductAction(Inventory inventory)
+    private static Product? AskUserForProductName(Inventory inventory, string purpose)
     {
-        Console.Write("Enter product name to remove: ");
+        Console.Write($"Enter product name to {purpose}: ");
         string? name = Console.ReadLine();
 
-        if (name == null)
+        if (name == null || name.Length == 0)
         {
             Console.WriteLine("Invalid name. Please try again.");
-            return;
+            return null;
         }
 
         Product? product = inventory.GetProduct(name);
@@ -76,10 +75,38 @@ namespace InventorySystem;
         if (product == null)
         {
             Console.WriteLine("Product not found.");
+            return null;
+        }
+
+        return product;
+    }
+    internal static void RemoveProductAction(Inventory inventory)
+    {
+        Product? product = AskUserForProductName(inventory, "removev");
+        inventory.RemoveProduct(product);
+    }
+
+    internal static void EditProduct(Inventory inventory)
+    {
+        Product? product = AskUserForProductName(inventory, "edit");
+
+        Console.Write("Enter products new name / Leave empty to keep the same: ");
+        string? name = Console.ReadLine();
+
+        Product? prev = inventory.GetProduct(name);
+        if (prev != null)
+        {
+            Console.WriteLine("Product with that name already exists.");
             return;
         }
 
-        inventory.RemoveProduct(product);
+        Console.Write("Enter product new description / Leave empty to keep the same: ");
+        string? description = Console.ReadLine();
+        Console.WriteLine("Enter -1 to keep the same");
+        double price = GetProductPrice();
+    
+        product?.EditProduct(name, description, price);
+
     }
 }
 
