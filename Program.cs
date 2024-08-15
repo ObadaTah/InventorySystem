@@ -27,7 +27,8 @@
                         break;
                     case 4:
                         Console.WriteLine("///////////// Edit Product /////////////");
-                        throw new NotImplementedException();
+                        Utilites.EditProduct(inventory);
+                        break;
                     case 5:
                         Console.WriteLine("///////////// Search For a Product /////////////");
                         throw new NotImplementedException();

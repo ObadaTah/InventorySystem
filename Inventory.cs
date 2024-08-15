@@ -17,11 +17,19 @@ namespace InventorySystem
 
         public void AddProduct(Product product)
         {
+            Product? prev =  Products.Find(product => product.Name == product.Name);
+            if (prev != null)
+            {
+                Console.WriteLine("Product already exists.");
+                return;
+            }
             Products.Add(product);
         }
 
-        public void RemoveProduct(Product product)
+        public void RemoveProduct(Product? product)
         {
+            if (product == null)
+                return;
             Products.Remove(product);
         }
 
