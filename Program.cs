@@ -1,47 +1,49 @@
-﻿namespace InventorySystem
+﻿using InventorySystem.Inventory;
+
+namespace InventorySystem;
+
+public class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        InMemoryInventory inventory = new();
+        do
         {
-            Inventory inventory = new();
-            do
+            Utilites.PrintMenu();
+            int choice = Utilites.GetMenuChoice();
+
+            switch (choice)
             {
-                Utilites.PrintMenu();
-                int choice = Utilites.GetMenuChoice();
+                case 1:
+                    Console.WriteLine("///////////// Add New Product /////////////");
+                    Product product = Utilites.AskUserProductDetails();
+                    inventory.AddProduct(product);
+                    break;
+                case 2:
+                    Console.WriteLine("///////////// Delete a Product /////////////");
+                    Utilites.RemoveProductAction(inventory);
+                    break;
+                case 3:
+                    Console.WriteLine("///////////// Print Invevntory /////////////");
+                    inventory.PrintInventory();
+                    break;
+                case 4:
+                    Console.WriteLine("///////////// Edit Product /////////////");
+                    Utilites.EditProduct(inventory);
+                    break;
+                case 5:
+                    Console.WriteLine("///////////// Search For a Product /////////////");
+                    Utilites.Search(inventory);
+                    break;
+                case 6:
+                    Console.WriteLine("///////////// Exit /////////////");
 
-                switch (choice)
-                {
-                    case 1:
-                        Console.WriteLine("///////////// Add New Product /////////////");
-                        Product product = Utilites.getProductDetails();
-                        inventory.AddProduct(product);
-                        break;
-                    case 2:
-                        Console.WriteLine("///////////// Delete a Product /////////////");
-                        Utilites.RemoveProductAction(inventory);
-                        break;
-                    case 3:
-                        Console.WriteLine("///////////// Print Invevntory /////////////");
-                        inventory.PrintInventory();
-                        break;
-                    case 4:
-                        Console.WriteLine("///////////// Edit Product /////////////");
-                        Utilites.EditProduct(inventory);
-                        break;
-                    case 5:
-                        Console.WriteLine("///////////// Search For a Product /////////////");
-                        throw new NotImplementedException();
-                    case 6:
-                        Console.WriteLine("///////////// Exit /////////////");
+                    return;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
 
-                        return;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
-                }
-
-            }while (true);
-        }
+        }while (true);
     }
 }
