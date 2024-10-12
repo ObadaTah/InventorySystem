@@ -6,7 +6,7 @@ public class Program
 {
     static void Main(string[] args)
     {
-        InMemoryInventory inventory = new();
+        MSSQLInventory inventory = new();
         do
         {
             Utilites.PrintMenu();

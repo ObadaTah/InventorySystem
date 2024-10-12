@@ -1,17 +1,22 @@
 ﻿namespace InventorySystem.Inventory;
 
-public class InMemoryInventory : IInventory
+public class MSSQLInventory : IInventory
 {
-    List<Product> Products { get; set; }
+    private readonly MSSQLDatabaseContext _dbContext;
 
-    public InMemoryInventory()
+    public MSSQLInventory()
     {
-        Products = new List<Product>();
+        _dbContext = new();
     }
 
     public bool Exists(string name)
     {
-        return Products.Exists(product => product.Name == name);
+        foreach (var product in _dbContext.Product)
+        {
+            if (product.Name == name)
+                return true;
+        }
+        return false;
     }
 
     public void AddProduct(Product product)
@@ -20,27 +25,29 @@ public class InMemoryInventory : IInventory
         if (prev)
         {
             Utilites.printError("Product already exists.");
-
             return;
         }
-        Products.Add(product);
+        _dbContext.Product.Add(product);
+        _dbContext.SaveChanges();
     }
 
     public void RemoveProduct(Product? product)
     {
         if (product == null)
             return;
-        Products.Remove(product);
+        _dbContext.Product.Remove(product);
+        _dbContext.SaveChanges();
+
     }
 
     public Product? GetProduct(string name)
     {
-        return Products.Find(product => product.Name == name);
+        return _dbContext.Product.Find(name);
     }
 
     public void PrintInventory()
     {
-        foreach (Product product in Products)
+        foreach (Product product in _dbContext.Product)
         {
             product.PrintProduct();
         }
@@ -48,10 +55,6 @@ public class InMemoryInventory : IInventory
 
     public void EditProduct(Product product, String? name, String? description, double price)
     {
-        if (name != "" && name != null)
-        {
-            product.Name = name;
-        }
         if (description != "" && description != null)
         {
             product.Description = description;
@@ -60,5 +63,6 @@ public class InMemoryInventory : IInventory
         {
             product.Price = price;
         }
+        _dbContext.SaveChanges();
     }
 }
