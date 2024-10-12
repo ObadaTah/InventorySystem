@@ -1,65 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using InventorySystem.Inventory;
 
 namespace InventorySystem;
 
-    internal static class Utilites
+public static class Utilites
+{
+    public static void PrintMenu()
     {
-        public static void PrintMenu()
-        {
-            Console.WriteLine("1. Add Product");
-            Console.WriteLine("2. Remove Product");
-            Console.WriteLine("3. Print Inventory");
-            Console.WriteLine("4. Edit Product");
-            Console.WriteLine("5. Look For a Product");
-            Console.WriteLine("6. Exit");
-        }
+        Console.WriteLine("1. Add Product");
+        Console.WriteLine("2. Remove Product");
+        Console.WriteLine("3. Print Inventory");
+        Console.WriteLine("4. Edit Product");
+        Console.WriteLine("5. Look For a Product");
+        Console.WriteLine("6. Exit");
+    }
 
-        public static int GetMenuChoice()
+    public static int GetMenuChoice()
+    {
+        while (true)
         {
-            while (true)
+            Console.Write("Enter your choice: ");
+            if (int.TryParse(Console.ReadLine(), out int choice))
             {
-                Console.Write("Enter your choice: ");
-                if (int.TryParse(Console.ReadLine(), out int choice))
-                {
-                    return choice;
-                }
-                else
-                {
-                    printError("Invalid choice. Please try again.");
-                }
+                return choice;
+            }
+            else
+            {
+                printError("Invalid choice. Please try again.");
             }
         }
+    }
 
-        public static Product getProductDetails()
-        {
-            Console.Write("Enter product name: ");
-            string? name = Console.ReadLine();
-            Console.Write("Enter product description: ");
-            string? description = Console.ReadLine();
-            double price = GetProductPrice();
-            return new Product(name, description, price);
-        }
+    public static Product AskUserProductDetails()
+    {
+        Console.Write("Enter product name: ");
+        string? name = Console.ReadLine();
+        Console.Write("Enter product description: ");
+        string? description = Console.ReadLine();
+        double price = AskUserProductPrice();
+        return new Product(name, description, price);
+    }
 
-        public static double GetProductPrice()
+    public static double AskUserProductPrice()
+    {
+        while (true)
         {
-            while (true)
-            {
-                Console.Write("Enter product price: ");
-                if (double.TryParse(Console.ReadLine(), out double price))
-                {
-                    return price;
-                }
-                else
-                {
-                    printError("Invalid price. Please try again.");
-                }
-            }
+            Console.Write("Enter product price: ");
+            if (double.TryParse(Console.ReadLine(), out double price))
+                return price;
+            else
+                printError("Invalid price. Please try again.");
+            
         }
-    private static Product? AskUserForProductName(Inventory inventory, string purpose)
+    }
+    private static Product? GetProduct(IInventory inventory, string purpose)
     {
         Console.Write($"Enter product name to {purpose}: ");
         string? name = Console.ReadLine();
@@ -75,21 +68,20 @@ namespace InventorySystem;
         if (product == null)
         {
             printError("Product not found.");
-
             return null;
         }
 
         return product;
     }
-    internal static void RemoveProductAction(Inventory inventory)
+    internal static void RemoveProductAction(IInventory inventory)
     {
-        Product? product = AskUserForProductName(inventory, "removev");
+        Product? product = GetProduct(inventory, "removev");
         inventory.RemoveProduct(product);
     }
 
-    internal static void EditProduct(Inventory inventory)
+    internal static void EditProduct(IInventory inventory)
     {
-        Product? product = AskUserForProductName(inventory, "edit");
+        Product? product = GetProduct(inventory, "edit");
         if (product == null)
         {
             return;
@@ -112,15 +104,15 @@ namespace InventorySystem;
         Console.Write("Enter product new description / Leave empty to keep the same: ");
         string? description = Console.ReadLine();
         Console.WriteLine("Enter -1 to keep the same");
-        double price = GetProductPrice();
-    
+        double price = AskUserProductPrice();
+
         product?.EditProduct(name, description, price);
 
     }
 
-    internal static void Search(Inventory inventory)
+    internal static void Search(IInventory inventory)
     {
-        Product? product = AskUserForProductName(inventory, "search");
+        Product? product = GetProduct(inventory, "search");
         product?.PrintProduct();
     }
 
@@ -134,4 +126,3 @@ namespace InventorySystem;
         Console.WriteLine();
     }
 }
-
