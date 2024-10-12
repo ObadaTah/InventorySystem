@@ -1,4 +1,7 @@
 ﻿using InventorySystem.Inventory;
+using InventorySystem.Models;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace InventorySystem;
 
@@ -6,7 +9,7 @@ public class Program
 {
     static void Main(string[] args)
     {
-        MSSQLInventory inventory = new();
+        MongoDbInventory inventory = new();
         do
         {
             Utilites.PrintMenu();
