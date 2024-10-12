@@ -45,4 +45,20 @@ public class InMemoryInventory : IInventory
             product.PrintProduct();
         }
     }
+
+    public static void EditProduct(Product product, String? name, String? description, double price)
+    {
+        if (name != "" && name != null)
+        {
+            product.Name = name;
+        }
+        if (description != "" && description != null)
+        {
+            product.Description = description;
+        }
+        if (price != -1)
+        {
+            product.Price = price;
+        }
+    }
 }

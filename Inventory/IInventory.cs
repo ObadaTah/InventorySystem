@@ -11,5 +11,7 @@
         void PrintInventory();
 
         void RemoveProduct(Product? product);
+
+        void EditProduct(Product product, String? name, String? Description, double Price);
     }
 }

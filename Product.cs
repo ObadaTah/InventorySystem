@@ -18,19 +18,5 @@ public class Product
         Console.WriteLine($"Name: {Name}, Description: {Description}, Price: {Price}");
     }
 
-    internal void EditProduct(string? name, string? description, double price)
-    {
-        if (name != "" && name != null)
-        {
-            this.Name = name;
-        }
-        if (description != "" && description != null)
-        {
-            this.Description = description;
-        }
-        if (price != -1)
-        {
-            this.Price = price;
-        }
-    }
+    
 }

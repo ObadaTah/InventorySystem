@@ -106,8 +106,7 @@ public static class Utilites
         Console.WriteLine("Enter -1 to keep the same");
         double price = AskUserProductPrice();
 
-        product?.EditProduct(name, description, price);
-
+        inventory.EditProduct(product, name, description, price);
     }
 
     internal static void Search(IInventory inventory)
