@@ -1,4 +1,6 @@
-﻿namespace InventorySystem.Inventory
+﻿using InventorySystem.Models;
+
+namespace InventorySystem.Inventory
 {
     public interface IInventory
     {
@@ -12,6 +14,6 @@
 
         void RemoveProduct(Product? product);
 
-        void EditProduct(Product product, String? name, String? Description, double Price);
+        void EditProduct(Product product, String? Description, double Price);
     }
 }

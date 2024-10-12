@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventorySystem.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace InventorySystem;
+namespace InventorySystem.DatabseContext;
 
 public class MSSQLDatabaseContext : DbContext
 {

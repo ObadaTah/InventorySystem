@@ -1,4 +1,6 @@
-﻿namespace InventorySystem.Inventory;
+﻿using InventorySystem.Models;
+
+namespace InventorySystem.Inventory;
 
 public class InMemoryInventory : IInventory
 {
@@ -46,12 +48,8 @@ public class InMemoryInventory : IInventory
         }
     }
 
-    public void EditProduct(Product product, String? name, String? description, double price)
+    public void EditProduct(Product product, String? description, double price)
     {
-        if (name != "" && name != null)
-        {
-            product.Name = name;
-        }
         if (description != "" && description != null)
         {
             product.Description = description;

@@ -1,4 +1,5 @@
 ﻿using InventorySystem.Inventory;
+using InventorySystem.Models;
 
 namespace InventorySystem;
 
@@ -87,26 +88,12 @@ public static class Utilites
             return;
         }
 
-        Console.Write("Enter products new name / Leave empty to keep the same: ");
-        string? name = Console.ReadLine();
-
-        // Check if the name already exists in the inventory
-        if (name != "" && name != null)
-        {
-            bool prev = inventory.Exists(name);
-            if (prev)
-            {
-                printError("Product with that name already exists.");
-                return;
-            }
-        }
-
         Console.Write("Enter product new description / Leave empty to keep the same: ");
         string? description = Console.ReadLine();
         Console.WriteLine("Enter -1 to keep the same");
         double price = AskUserProductPrice();
 
-        inventory.EditProduct(product, name, description, price);
+        inventory.EditProduct(product, description, price);
     }
 
     internal static void Search(IInventory inventory)

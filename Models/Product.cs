@@ -1,11 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations;
+using ThirdParty.Json.LitJson;
 
-namespace InventorySystem;
+namespace InventorySystem.Models;
 
 public class Product
 {
     [Key]
-    public string Name { get ; set; }
+    [BsonId]
+    public string Name { get; set; }
     public string Description { get; set; }
     public double Price { get; set; }
 
@@ -21,5 +24,5 @@ public class Product
         Console.WriteLine($"Name: {Name}, Description: {Description}, Price: {Price}");
     }
 
-    
+
 }
