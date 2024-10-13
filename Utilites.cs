@@ -29,7 +29,7 @@ namespace InventorySystem;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid choice. Please try again.");
+                    printError("Invalid choice. Please try again.");
                 }
             }
         }
@@ -55,7 +55,7 @@ namespace InventorySystem;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid price. Please try again.");
+                    printError("Invalid price. Please try again.");
                 }
             }
         }
@@ -66,7 +66,8 @@ namespace InventorySystem;
 
         if (name == null || name.Length == 0)
         {
-            Console.WriteLine("Invalid name. Please try again.");
+
+            printError("Invalid name. Please try again.");
             return null;
         }
 
@@ -74,7 +75,8 @@ namespace InventorySystem;
 
         if (product == null)
         {
-            Console.WriteLine("Product not found.");
+
+            printError("Product not found.");
             return null;
         }
 
@@ -90,16 +92,24 @@ namespace InventorySystem;
     {
         Product? product = AskUserForProductName(inventory, "edit");
 
-        Console.Write("Enter products new name / Leave empty to keep the same: ");
-        string? name = Console.ReadLine();
-
-        Product? prev = inventory.GetProduct(name);
-        if (prev != null)
+        if (product == null)
         {
-            Console.WriteLine("Product with that name already exists.");
             return;
         }
 
+        Console.Write("Enter products new name / Leave empty to keep the same: ");
+        string? name = Console.ReadLine();
+
+        // Check if the name already exists in the inventory
+        if (name != "" && name != null)
+        {
+            bool prev = inventory.Exists(name);
+            if (prev)
+            {
+                printError("Product with that name already exists.");
+                return;
+            }
+        }
         Console.Write("Enter product new description / Leave empty to keep the same: ");
         string? description = Console.ReadLine();
         Console.WriteLine("Enter -1 to keep the same");
@@ -108,5 +118,23 @@ namespace InventorySystem;
         product?.EditProduct(name, description, price);
 
     }
+
+    internal static void Search(Inventory inventory)
+    {
+        Product? product = AskUserForProductName(inventory, "search");
+        product?.PrintProduct();
+    }
+
+    internal static void printError(string message)
+    {
+        Console.WriteLine();
+        Console.BackgroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+
+        Console.ResetColor();
+        Console.WriteLine();
+
+    }
+
 }
 

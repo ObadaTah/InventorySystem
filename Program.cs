@@ -31,7 +31,8 @@
                         break;
                     case 5:
                         Console.WriteLine("///////////// Search For a Product /////////////");
-                        throw new NotImplementedException();
+                        Utilites.Search(inventory);
+                        break;
                     case 6:
                         Console.WriteLine("///////////// Exit /////////////");
 
