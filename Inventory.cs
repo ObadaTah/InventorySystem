@@ -21,10 +21,12 @@ namespace InventorySystem
 
         public void AddProduct(Product product)
         {
+
             bool prev = Exists(product.Name);
             if (prev)
             {
                 Utilites.printError("Product already exists.");
+
                 return;
             }
             Products.Add(product);

@@ -66,6 +66,7 @@ namespace InventorySystem;
 
         if (name == null || name.Length == 0)
         {
+
             printError("Invalid name. Please try again.");
             return null;
         }
@@ -74,6 +75,7 @@ namespace InventorySystem;
 
         if (product == null)
         {
+
             printError("Product not found.");
             return null;
         }
@@ -89,6 +91,7 @@ namespace InventorySystem;
     internal static void EditProduct(Inventory inventory)
     {
         Product? product = AskUserForProductName(inventory, "edit");
+
         if (product == null)
         {
             return;
@@ -132,5 +135,6 @@ namespace InventorySystem;
         Console.WriteLine();
 
     }
+
 }
 
