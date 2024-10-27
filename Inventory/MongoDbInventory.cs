@@ -1,89 +1,13 @@
 ﻿using InventorySystem.DatabseContext;
-using InventorySystem.Models;
-using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace InventorySystem.Inventory;
 
-public class MongoDbInventory : IInventory
+public class MongoDbInventory
 {
-    private readonly MongoDbContext _dbContext;
+    public MongoDbContext DbContext;
 
     public MongoDbInventory()
     {
-        _dbContext = new();
-    }
-
-    public bool Exists(string name)
-    {
-        var documents = _dbContext.Products.Find(new BsonDocument()).ToList();
-        foreach (var product in documents)
-        {
-            if (product.Name == name)
-                return true;
-        }
-        return false;
-    }
-
-    public void AddProduct(Product product)
-    {
-        var documents = _dbContext.Products.Find(new BsonDocument()).ToList();
-
-        bool prev = Exists(product.Name);
-        if (prev)
-        {
-            Utilites.printError("Product already exists.");
-            return;
-        }
-        _dbContext.Products.InsertOne(product);
-    }
-
-    public void RemoveProduct(Product? product)
-    {
-        if (product == null)
-            return;
-        var deleteFilter = Builders<Product>.Filter.Eq("_id", product.Name);
-        _dbContext.Products.DeleteOne(deleteFilter);
-    }
-
-    public Product? GetProduct(string name)
-    {
-        var filter = Builders<Product>.Filter.Eq("_id", name);
-        return _dbContext.Products.Find(filter).First();
-        
-    }
-
-    public void PrintInventory()
-    {
-        var documents = _dbContext.Products.Find(new BsonDocument()).ToList();
-
-        foreach (Product product in documents)
-        {
-            product.PrintProduct();
-        }
-    }
-
-    public void EditProduct(Product product, String? name, String? description, double price)
-    {
-        var filter = Builders<Product>.Filter.Eq(e => e.Name, product.Name);
-        var updates = new List<UpdateDefinition<Product>>();
-        if (description != "" && description != null)
-        {
-            updates.Add(Builders<Product>.Update.Set(e => e.Description, description));
-        }
-
-        if (description != "" && description != null)
-        {
-            updates.Add(Builders<Product>.Update.Set(e => e.Name, name));
-        }
-
-        if (price != -1)
-        {
-            updates.Add(Builders<Product>.Update.Set(e => e.Price, price));
-        }
-        if (updates.Count != 0)
-            _dbContext.Products.UpdateMany(filter, Builders<Product>.Update.Combine(updates));
-
+        DbContext = new();
     }
 }

@@ -1,7 +1,5 @@
-﻿using InventorySystem.Inventory;
-using InventorySystem.Models;
-using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using InventorySystem.Models;
+using InventorySystem.Repositories;
 
 namespace InventorySystem;
 
@@ -9,7 +7,7 @@ public class Program
 {
     static void Main(string[] args)
     {
-        MongoDbInventory inventory = new();
+        InMemoryProductRepository inventory = new();
         do
         {
             Utilites.PrintMenu();
@@ -20,7 +18,14 @@ public class Program
                 case 1:
                     Console.WriteLine("///////////// Add New Product /////////////");
                     Product product = Utilites.AskUserProductDetails();
-                    inventory.AddProduct(product);
+                    try
+                    {
+                        inventory.AddProduct(product);
+
+                    }catch(ArgumentException e)
+                    {
+                        Utilites.printError(e.Message);
+                    }
                     break;
                 case 2:
                     Console.WriteLine("///////////// Delete a Product /////////////");

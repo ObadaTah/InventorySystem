@@ -1,8 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System.ComponentModel.DataAnnotations;
-using ThirdParty.Json.LitJson;
-
-namespace InventorySystem.Models;
+﻿namespace InventorySystem.Models;
 
 public class Product
 {
@@ -22,6 +18,4 @@ public class Product
     {
         Console.WriteLine($"Name: {Name}, Description: {Description}, Price: {Price}");
     }
-
-
 }

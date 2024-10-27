@@ -1,79 +1,13 @@
 ﻿using InventorySystem.DatabseContext;
-using InventorySystem.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace InventorySystem.Inventory;
 
-public class MSSQLInventory : IInventory
+public class MSSQLInventory
 {
-    private readonly MSSQLDatabaseContext _dbContext;
+    public MSSQLDatabaseContext DbContext;
 
     public MSSQLInventory()
     {
-        _dbContext = new();
-    }
-
-    public bool Exists(string name)
-    {
-        foreach (var product in _dbContext.Product)
-        {
-            if (product.Name == name)
-                return true;
-        }
-        return false;
-    }
-
-    public void AddProduct(Product product)
-    {
-        bool prev = Exists(product.Name);
-        if (prev)
-        {
-            Utilites.printError("Product already exists.");
-            return;
-        }
-        _dbContext.Product.Add(product);
-        _dbContext.SaveChanges();
-    }
-
-    public void RemoveProduct(Product? product)
-    {
-        if (product == null)
-            return;
-        _dbContext.Product.Remove(product);
-        _dbContext.SaveChanges();
-
-    }
-
-    public Product? GetProduct(string name)
-    {
-        return _dbContext.Product.Find(name);
-    }
-
-    public void PrintInventory()
-    {
-        foreach (Product product in _dbContext.Product)
-        {
-            product.PrintProduct();
-        }
-    }
-
-    public void EditProduct(Product product, String? name, String? description, double price)
-    {
-
-        if (description != "" && description != null)
-        {
-            product.Description = description;
-        }
-        if (name != "" && name != null)
-        {
-            product.Name = name;
-        }
-        if (price != -1)
-        {
-            product.Price = price;
-        }
-
-        if (_dbContext.ChangeTracker.Entries().Any(e => e.State == EntityState.Modified))
-            _dbContext.SaveChanges();
+        DbContext = new();
     }
 }
