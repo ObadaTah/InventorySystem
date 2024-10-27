@@ -1,7 +1,5 @@
 ﻿using InventorySystem.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace InventorySystem.DatabseContext;
 

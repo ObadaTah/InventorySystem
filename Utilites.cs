@@ -1,5 +1,5 @@
-﻿using InventorySystem.Inventory;
-using InventorySystem.Models;
+﻿using InventorySystem.Models;
+using InventorySystem.Repositories;
 
 namespace InventorySystem;
 
@@ -53,7 +53,7 @@ public static class Utilites
             
         }
     }
-    private static Product? GetProduct(IInventory inventory, string purpose)
+    private static Product? GetProduct(IProductRepository inventory, string purpose)
     {
         Console.Write($"Enter product name to {purpose}: ");
         string? name = Console.ReadLine();
@@ -74,13 +74,13 @@ public static class Utilites
 
         return product;
     }
-    internal static void RemoveProductAction(IInventory inventory)
+    internal static void RemoveProductAction(IProductRepository inventory)
     {
         Product? product = GetProduct(inventory, "removev");
         inventory.RemoveProduct(product);
     }
 
-    internal static void EditProduct(IInventory inventory)
+    internal static void EditProduct(IProductRepository inventory)
     {
         Product? product = GetProduct(inventory, "edit");
         if (product == null)
@@ -88,15 +88,17 @@ public static class Utilites
             return;
         }
 
+        Console.Write("Enter product new name / Leave empty to keep the same: ");
+        string? name = Console.ReadLine();
         Console.Write("Enter product new description / Leave empty to keep the same: ");
         string? description = Console.ReadLine();
         Console.WriteLine("Enter -1 to keep the same");
         double price = AskUserProductPrice();
 
-        inventory.EditProduct(product, description, price);
+        inventory.EditProduct(product, name, description, price);
     }
 
-    internal static void Search(IInventory inventory)
+    internal static void Search(IProductRepository inventory)
     {
         Product? product = GetProduct(inventory, "search");
         product?.PrintProduct();
