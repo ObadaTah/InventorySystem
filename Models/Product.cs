@@ -6,8 +6,7 @@ namespace InventorySystem.Models;
 
 public class Product
 {
-    [Key]
-    [BsonId]
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public double Price { get; set; }

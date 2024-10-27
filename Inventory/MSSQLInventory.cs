@@ -1,5 +1,6 @@
 ﻿using InventorySystem.DatabseContext;
 using InventorySystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventorySystem.Inventory;
 
@@ -56,16 +57,23 @@ public class MSSQLInventory : IInventory
         }
     }
 
-    public void EditProduct(Product product, String? description, double price)
+    public void EditProduct(Product product, String? name, String? description, double price)
     {
+
         if (description != "" && description != null)
         {
             product.Description = description;
+        }
+        if (name != "" && name != null)
+        {
+            product.Name = name;
         }
         if (price != -1)
         {
             product.Price = price;
         }
-        _dbContext.SaveChanges();
+
+        if (_dbContext.ChangeTracker.Entries().Any(e => e.State == EntityState.Modified))
+            _dbContext.SaveChanges();
     }
 }

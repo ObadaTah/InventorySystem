@@ -48,11 +48,15 @@ public class InMemoryInventory : IInventory
         }
     }
 
-    public void EditProduct(Product product, String? description, double price)
+    public void EditProduct(Product product, String? name, String? description, double price)
     {
         if (description != "" && description != null)
         {
             product.Description = description;
+        }
+        if (name != "" && name != null)
+        {
+            product.Name = name;
         }
         if (price != -1)
         {

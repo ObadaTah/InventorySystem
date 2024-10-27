@@ -1,5 +1,6 @@
 ﻿using InventorySystem.DatabseContext;
 using InventorySystem.Models;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -63,19 +64,26 @@ public class MongoDbInventory : IInventory
         }
     }
 
-    public void EditProduct(Product product, String? description, double price)
+    public void EditProduct(Product product, String? name, String? description, double price)
     {
-        var filter = Builders<Product>.Filter.Eq("_id", product.Name);
+        var filter = Builders<Product>.Filter.Eq(e => e.Name, product.Name);
+        var updates = new List<UpdateDefinition<Product>>();
+        if (description != "" && description != null)
+        {
+            updates.Add(Builders<Product>.Update.Set(e => e.Description, description));
+        }
 
         if (description != "" && description != null)
         {
-            var update = Builders<Product>.Update.Set("Description", description);
-            _dbContext.Products.UpdateOne(filter, update);
+            updates.Add(Builders<Product>.Update.Set(e => e.Name, name));
         }
+
         if (price != -1)
         {
-            var update = Builders<Product>.Update.Set("Price", price);
-            _dbContext.Products.UpdateOne(filter, update);
+            updates.Add(Builders<Product>.Update.Set(e => e.Price, price));
         }
+        if (updates.Count != 0)
+            _dbContext.Products.UpdateMany(filter, Builders<Product>.Update.Combine(updates));
+
     }
 }

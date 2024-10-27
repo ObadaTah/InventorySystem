@@ -88,12 +88,14 @@ public static class Utilites
             return;
         }
 
+        Console.Write("Enter product new name / Leave empty to keep the same: ");
+        string? name = Console.ReadLine();
         Console.Write("Enter product new description / Leave empty to keep the same: ");
         string? description = Console.ReadLine();
         Console.WriteLine("Enter -1 to keep the same");
         double price = AskUserProductPrice();
 
-        inventory.EditProduct(product, description, price);
+        inventory.EditProduct(product, name, description, price);
     }
 
     internal static void Search(IInventory inventory)
