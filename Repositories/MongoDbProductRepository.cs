@@ -12,19 +12,12 @@ public class MongoDbProductRepository : IProductRepository
 
     public bool Exists(string name)
     {
-        var documents = _inventory.DbContext.Products.Find(new BsonDocument()).ToList();
-        foreach (var product in documents)
-        {
-            if (product.Name == name)
-                return true;
-        }
-        return false;
+        var documents = _inventory.DbContext.Products.Find(e=> e.Name == name).ToList();
+        return documents.Count != 0;
     }
 
     public void AddProduct(Product product)
     {
-        var documents = _inventory.DbContext.Products.Find(new BsonDocument()).ToList();
-
         bool prev = Exists(product.Name);
         if (prev)
             throw new ArgumentException("Product Name Already Exists");
@@ -36,13 +29,13 @@ public class MongoDbProductRepository : IProductRepository
     {
         if (product == null)
             return;
-        var deleteFilter = Builders<Product>.Filter.Eq("_id", product.Name);
+        var deleteFilter = Builders<Product>.Filter.Eq(e => e.Name, product.Name);
         _inventory.DbContext.Products.DeleteOne(deleteFilter);
     }
 
     public Product? GetProduct(string name)
     {
-        var filter = Builders<Product>.Filter.Eq("_id", name);
+        var filter = Builders<Product>.Filter.Eq(e => e.Name, name);
         return _inventory.DbContext.Products.Find(filter).First();
     }
 
@@ -74,8 +67,8 @@ public class MongoDbProductRepository : IProductRepository
         {
             updates.Add(Builders<Product>.Update.Set(e => e.Price, price));
         }
+
         if (updates.Count != 0)
             _inventory.DbContext.Products.UpdateMany(filter, Builders<Product>.Update.Combine(updates));
-
     }
 }

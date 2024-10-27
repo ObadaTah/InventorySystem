@@ -11,12 +11,7 @@ public class MSSQLProductRepository : IProductRepository
 
     public bool Exists(string name)
     {
-        foreach (var product in _inventory.DbContext.Product)
-        {
-            if (product.Name == name)
-                return true;
-        }
-        return false;
+        return _inventory.DbContext.Product.Any(x => x.Name == name);
     }
 
     public void AddProduct(Product product)
@@ -39,12 +34,13 @@ public class MSSQLProductRepository : IProductRepository
 
     public Product? GetProduct(string name)
     {
-        return _inventory.DbContext.Product.Find(name);
+        return _inventory.DbContext.Product.First(product => product.Name == name);
     }
 
     public void PrintInventory()
     {
-        foreach (Product product in _inventory.DbContext.Product)
+        var products = _inventory.DbContext.Product.ToList();
+        foreach (Product product in products)
         {
             product.PrintProduct();
         }
